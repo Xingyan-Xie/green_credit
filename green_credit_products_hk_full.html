@@ -1,0 +1,696 @@
+<!doctype html>
+<html lang="zh-HK">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>香港綠色信貸產品信息庫</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f4;
+      --surface: #ffffff;
+      --surface-soft: #eef3f0;
+      --text: #1f2925;
+      --muted: #5e6f67;
+      --line: #d9e2dd;
+      --green: #0b573f;
+      --blue: #275f88;
+      --amber: #8a5a12;
+      --red: #9d3030;
+      --shadow: 0 8px 24px rgba(23, 39, 31, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", Arial, sans-serif;
+      line-height: 1.45;
+    }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .header-inner {
+      width: min(1600px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 18px 0 16px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--green);
+      font-size: 24px;
+      line-height: 1.25;
+      font-weight: 700;
+    }
+
+    .meta {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .action,
+    button {
+      min-height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .action {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 12px;
+      white-space: nowrap;
+    }
+
+    button {
+      padding: 7px 12px;
+    }
+
+    .primary {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+    }
+
+    .toolbar {
+      width: min(1600px, calc(100% - 32px));
+      margin: 16px auto 12px;
+      display: grid;
+      grid-template-columns: minmax(240px, 1.4fr) minmax(180px, 0.6fr) minmax(220px, 0.8fr) auto auto;
+      gap: 10px;
+      align-items: end;
+    }
+
+    label {
+      display: grid;
+      gap: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+      padding: 8px 10px;
+    }
+
+    .toggle {
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--text);
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .toggle input {
+      width: 16px;
+      min-height: 16px;
+      margin: 0;
+      accent-color: var(--green);
+    }
+
+    .stats {
+      width: min(1600px, calc(100% - 32px));
+      margin: 0 auto 12px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px 14px;
+      min-height: 72px;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 4px;
+      color: var(--text);
+      font-size: 26px;
+      line-height: 1.1;
+    }
+
+    .table-shell {
+      width: min(1600px, calc(100% - 32px));
+      height: calc(100vh - 265px);
+      min-height: 460px;
+      margin: 0 auto 18px;
+      overflow: auto;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    table {
+      width: max-content;
+      min-width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 13px;
+    }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      z-index: 4;
+      background: #eef3f0;
+      border-bottom: 1px solid var(--line);
+      color: #26332d;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th,
+    td {
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 9px 10px;
+      vertical-align: top;
+    }
+
+    tbody tr:hover td {
+      background: #fbfcfa;
+    }
+
+    th:first-child,
+    td:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 3;
+      background: var(--surface);
+      min-width: 190px;
+      max-width: 240px;
+    }
+
+    thead th:first-child {
+      z-index: 5;
+      background: #e3ece7;
+    }
+
+    th:nth-child(2),
+    td:nth-child(2) {
+      position: sticky;
+      left: 190px;
+      z-index: 3;
+      background: var(--surface);
+      min-width: 150px;
+      max-width: 190px;
+    }
+
+    thead th:nth-child(2) {
+      z-index: 5;
+      background: #e3ece7;
+    }
+
+    .sort-button {
+      min-height: auto;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      color: inherit;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .sort-mark {
+      width: 12px;
+      color: var(--muted);
+      font-size: 11px;
+      display: inline-block;
+    }
+
+    .cell {
+      max-width: 260px;
+      overflow-wrap: anywhere;
+    }
+
+    .cell.long {
+      max-width: 440px;
+      min-width: 300px;
+    }
+
+    .cell.url {
+      min-width: 150px;
+      max-width: 190px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--surface-soft);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .chip.yes {
+      border-color: rgba(11, 87, 63, 0.28);
+      background: #e7f3ed;
+      color: var(--green);
+    }
+
+    .chip.no {
+      border-color: rgba(157, 48, 48, 0.25);
+      background: #f9ecec;
+      color: var(--red);
+    }
+
+    .chip.type {
+      border-color: rgba(39, 95, 136, 0.25);
+      background: #edf4fa;
+      color: var(--blue);
+      margin-right: 6px;
+      margin-bottom: 4px;
+    }
+
+    .code {
+      display: inline-block;
+      color: var(--muted);
+      font-family: Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    a.source-link {
+      color: var(--blue);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    a.source-link:hover {
+      text-decoration: underline;
+    }
+
+    .empty {
+      padding: 48px 16px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    @media (max-width: 980px) {
+      .header-inner,
+      .toolbar,
+      .stats,
+      .table-shell {
+        width: min(100% - 20px, 1600px);
+      }
+
+      .header-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .actions {
+        justify-content: flex-start;
+      }
+
+      .toolbar {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      h1 {
+        font-size: 20px;
+      }
+
+      .toolbar,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .table-shell {
+        height: 62vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div>
+        <h1>香港綠色信貸產品信息庫</h1>
+        <p class="meta">來源：green_credit_products_hk_full.csv；生成日期：2026-06-13；完整字段已內嵌於本頁。</p>
+      </div>
+      <nav class="actions" aria-label="頁面操作">
+        <a class="action" href="green_credit_products_hk_full.csv" download>下載 CSV</a>
+        <button class="primary" id="resetButton" type="button">重置篩選</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="toolbar" aria-label="篩選工具">
+      <label>
+        搜索全部字段
+        <input id="searchInput" type="search" placeholder="輸入銀行、產品、標籤、用途或來源">
+      </label>
+      <label>
+        銀行
+        <select id="bankFilter">
+          <option value="">全部銀行</option>
+        </select>
+      </label>
+      <label>
+        產品類型
+        <select id="typeFilter">
+          <option value="">全部產品類型</option>
+        </select>
+      </label>
+      <label class="toggle">
+        <input id="smeOnly" type="checkbox">
+        只看支持中小企
+      </label>
+      <label class="toggle">
+        <input id="reviewOnly" type="checkbox">
+        需外部評審
+      </label>
+    </section>
+
+    <section class="stats" aria-label="統計">
+      <div class="stat"><span>當前產品</span><strong id="statProducts">0</strong></div>
+      <div class="stat"><span>覆蓋銀行</span><strong id="statBanks">0</strong></div>
+      <div class="stat"><span>支持中小企</span><strong id="statSme">0</strong></div>
+      <div class="stat"><span>需外部評審</span><strong id="statReview">0</strong></div>
+    </section>
+
+    <section class="table-shell" aria-label="產品完整信息表">
+      <table id="productTable">
+        <thead><tr id="tableHead"></tr></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script>
+    const DATA = [{"product_id":"HSBC_HK_SIL_HKGOC","bank_name_cn":"滙豐銀行香港","bank_name_en":"HSBC Hong Kong","product_name_cn":"可持續發展改善貸款 - HKGOC路徑","product_name_en":"HSBC Sustainability Improvement Loan with HKGOC","product_type":"sustainability_linked_loan","target_customer":"中小企及中型企業","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market","eligible_project_tags":"energy_efficiency; waste_reduction; carbon_reduction; sustainability_performance; SME","preferred_industries":"all_industries","mvp_min_esg_score":"65","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"500000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"FALSE","requires_kpi_or_target_tracking":"TRUE","official_features_summary":"貸款成本可與企業可持續表現掛鈎，HKGOC Energywi$e/Wastewi$e證書可作為可持續表現路徑之一。適用於希望通過節能、減廢和環境管理改善來取得更好融資條件的企業。","best_for":"已有ESG報告或內部環境數據，並計劃持續改善節能、減廢表現的中小企。","mvp_matching_note":"若企業ESG評分較高且具備節能/減廢項目，可優先匹配；需要企業準備HKGOC或等同證明，並由銀行最終判斷是否可轉為SIL安排。","source_institution":"HSBC","source_url":"https://www.business.hsbc.com.hk/-/media/media/hong-kong/pdfs/campaigns/sustainability-improvement-loan-hkgoc-factsheet-en.pdf"},{"product_id":"BOCHK_GREEN_SUSTAINABILITY_RELATED_LOAN","bank_name_cn":"中國銀行香港","bank_name_en":"Bank of China (Hong Kong)","product_name_cn":"綠色和可持續相關貸款","product_name_en":"Green and Sustainability related Loan","product_type":"green_or_sustainability_related_loan","target_customer":"各行業企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"renewable_energy; energy_efficiency; pollution_prevention; waste_reduction; waste_recycling; clean_transport; green_technology; sustainable_water; climate_resilience; circular_economy; green_building; carbon_reduction","preferred_industries":"all_industries","mvp_min_esg_score":"60","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"1000000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"TRUE","official_features_summary":"支持合資格綠色、社會和轉型項目，也支持企業實現ESG目標；貸款類型包括定期貸款和循環貸款；申請需符合綠色貸款原則或可持續發展掛鈎貸款原則等。","best_for":"項目用途清晰、可提供第三方綠色評估或認證、融資金額達到企業貸款規模的綠色項目。","mvp_matching_note":"適合作為光伏、電動車、節能改造、循環經濟項目的綜合備選；需要綠色評估或認證並由銀行審批。","source_institution":"BOCHK","source_url":"https://www.bochk.com/en/corporate/ESG/greenloan.html"},{"product_id":"HANGSENG_GREEN_LOAN","bank_name_cn":"恒生銀行","bank_name_en":"Hang Seng Bank","product_name_cn":"綠色貸款","product_name_en":"Green Loans","product_type":"use_of_proceeds_green_loan","target_customer":"商業銀行企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"renewable_energy; energy_efficiency; clean_transport; waste_reduction; waste_recycling; green_building; carbon_reduction","preferred_industries":"all_industries","mvp_min_esg_score":"60","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"800000","mvp_max_recommended_amount_hkd":"100000000","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"企業貸款用於融資或再融資符合綠色貸款原則的合資格綠色項目。網頁同時列示社會貸款和可持續發展掛鈎貸款。","best_for":"用途明確、可直接證明環境收益的綠色項目。","mvp_matching_note":"恒生網頁曾列示外部評審費用現金回贈，但相關條款要求可持續融資須在2025年5月31日或以前提款；當前匹配只使用貸款產品類型，不把該回贈作為有效優惠。","source_institution":"Hang Seng Bank","source_url":"https://www.hangseng.com/business/scale-your-business/lending-green-financing/"},{"product_id":"HANGSENG_SUSTAINABILITY_LINKED_LOAN","bank_name_cn":"恒生銀行","bank_name_en":"Hang Seng Bank","product_name_cn":"可持續發展掛鈎貸款","product_name_en":"Sustainability Linked Loans","product_type":"sustainability_linked_loan","target_customer":"商業銀行企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"sustainability_performance; carbon_reduction; energy_efficiency; training; social_performance; governance","preferred_industries":"all_industries","mvp_min_esg_score":"70","preferred_esg_ratings":"A+; A; B+","mvp_min_recommended_amount_hkd":"1000000","mvp_max_recommended_amount_hkd":"100000000","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"FALSE","requires_kpi_or_target_tracking":"TRUE","official_features_summary":"貸款支持環境及社會可持續經濟活動，企業資金成本與ESG及可持續發展指標掛鈎。","best_for":"ESG評分較高、已有量化年度目標並希望把融資成本與減碳或其他ESG目標掛鈎的企業。","mvp_matching_note":"若企業ESG評級為A+/A且具備明確減碳目標，可作為綠色項目貸款之外的融資方案。","source_institution":"Hang Seng Bank","source_url":"https://www.hangseng.com/business/scale-your-business/lending-green-financing/"},{"product_id":"DBS_HK_SME_SUSTAINABLE_FINANCE_PROGRAMME","bank_name_cn":"星展銀行香港","bank_name_en":"DBS Hong Kong","product_name_cn":"中小企可持續發展融資計劃","product_name_en":"DBS Hong Kong SME Sustainable Finance Programme","product_type":"sme_green_project_finance","target_customer":"香港中小企","supports_sme":"TRUE","suitable_company_scale":"SME","eligible_project_tags":"energy_efficiency; pollution_prevention; resource_conservation; green_building; clean_transport; renewable_energy; solar; waste_reduction; circular_economy; SME","preferred_industries":"all_industries; sustainability_sector","mvp_min_esg_score":"55","preferred_esg_ratings":"A+; A; B+; B; C+","mvp_min_recommended_amount_hkd":"500000","mvp_max_recommended_amount_hkd":"10000000","mvp_max_tenor_years":"","requires_external_review":"FALSE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"專為中小企綠色項目或活動提供融資，資金用途須具備明確環境效益；合資格用途包括LED、節能設備、可回收材料、電動車隊和太陽能等。可適用分期貸款、循環貸款、貿易融資等多類信貸。","best_for":"金額較小、用途明確、需要較簡化綠色融資路徑的香港中小企。","mvp_matching_note":"與當前demo企業的LED、屋頂光伏、電動車替換、循環包裝項目高度匹配；需要準備合同、標籤、認證或項目文件證明資金用於綠色活動。","source_institution":"DBS Hong Kong","source_url":"https://www.dbs.com.hk/sme/sustainable-finance-programme"},{"product_id":"DBS_HK_GREEN_SUSTAINABLE_TRADE_FINANCING","bank_name_cn":"星展銀行香港","bank_name_en":"DBS Hong Kong","product_name_cn":"綠色和可持續貿易融資","product_name_en":"Green and Sustainable Trade Financing","product_type":"sustainable_trade_finance","target_customer":"企業及中小企供應鏈客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"sustainable_packaging; circular_economy; resource_conservation; waste_reduction; supply_chain; trade_finance","preferred_industries":"trade; manufacturing; packaging; logistics","mvp_min_esg_score":"60","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"500000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"1","requires_external_review":"FALSE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"圍繞可持續供應鏈和貿易活動提供綠色及可持續貿易融資方案。","best_for":"以採購、應收、訂單和供應鏈為主的綠色產品企業。","mvp_matching_note":"適合再生紙產品線和可持續包裝訂單產生的貿易融資需求；如為固定資產改造項目，則優先匹配項目貸款而非貿易融資。","source_institution":"DBS Hong Kong","source_url":"https://www.dbs.com.hk/corporate/sustainability/green-and-sustainable-trade-financing"},{"product_id":"BEA_GREEN_LOAN","bank_name_cn":"東亞銀行","bank_name_en":"The Bank of East Asia","product_name_cn":"綠色貸款","product_name_en":"Green Loan","product_type":"use_of_proceeds_green_loan","target_customer":"企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"energy_efficiency; renewable_energy; green_building; carbon_reduction; clean_transport; waste_reduction","preferred_industries":"all_industries","mvp_min_esg_score":"60","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"500000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"綠色貸款支持提高能源效率、發展可再生能源、綠色建築等綠色項目，並按不同綠色項目提供優惠利率。","best_for":"綠色項目用途明確且希望獲得項目型綠色貸款優惠利率的企業。","mvp_matching_note":"適合LED改造、光伏和電動車項目；需準備綠色項目文件並通過銀行內部政策和信貸審批。","source_institution":"BEA","source_url":"https://www.hkbea.com/html/en/bea-corporate-banking-green-and-sustainable-products.html"},{"product_id":"BEA_SUSTAINABILITY_LINKED_LOAN","bank_name_cn":"東亞銀行","bank_name_en":"The Bank of East Asia","product_name_cn":"可持續發展掛鈎貸款","product_name_en":"Sustainability-linked Loan","product_type":"sustainability_linked_loan","target_customer":"企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"sustainability_performance; carbon_reduction; training; energy_efficiency; governance","preferred_industries":"all_industries","mvp_min_esg_score":"70","preferred_esg_ratings":"A+; A; B+","mvp_min_recommended_amount_hkd":"800000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"FALSE","requires_kpi_or_target_tracking":"TRUE","official_features_summary":"貸款條款與預先設定的可持續目標掛鈎，例如年度碳減排、員工培訓時數等，並需定期監測進度報告。","best_for":"ESG表現較好且有量化KPI的企業。","mvp_matching_note":"當前企業ESG評級A+，可作為補充融資方案；若單個項目金額較小，通常仍優先匹配中小企綠色項目貸款。","source_institution":"BEA","source_url":"https://www.hkbea.com/html/en/bea-corporate-banking-green-and-sustainable-products.html"},{"product_id":"OCBC_HK_SME_SUSTAINABLE_FINANCING","bank_name_cn":"華僑銀行香港","bank_name_en":"OCBC Hong Kong","product_name_cn":"中小企可持續融資綠色貸款","product_name_en":"SME Sustainable Financing - Green Loans for SMEs","product_type":"sme_green_project_finance","target_customer":"中小企","supports_sme":"TRUE","suitable_company_scale":"SME","eligible_project_tags":"renewable_energy; solar; green_building; energy_efficiency; clean_transport; pollution_prevention; waste_reduction; waste_recycling; circular_economy; sustainable_packaging; sustainable_water; climate_adaptation; SME","preferred_industries":"all_industries; sustainability_sector; packaging","mvp_min_esg_score":"55","preferred_esg_ratings":"A+; A; B+; B; C+","mvp_min_recommended_amount_hkd":"300000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"FALSE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"為中小企實施可持續項目提供融資，框架經Moody's ESG審閲並與綠色貸款原則四個核心組成部分對齊；資金領域包括可再生能源、能源效率、清潔交通、污染防治、循環經濟及資源高效包裝等。","best_for":"綠色項目類型較多、金額中小、希望簡化可持續融資文件複雜度的中小企。","mvp_matching_note":"與demo企業綠色包裝、LED、光伏、電動車和循環經濟項目高度匹配，是優先推薦對象。","source_institution":"OCBC Hong Kong","source_url":"https://www.ocbc.com.hk/business-banking/smes/loans/sustainable-financing.page"},{"product_id":"SCB_SUSTAINABLE_TRADE_FINANCING","bank_name_cn":"渣打銀行香港","bank_name_en":"Standard Chartered","product_name_cn":"可持續貿易融資","product_name_en":"Sustainable Trade Financing","product_type":"sustainable_trade_finance","target_customer":"企業及機構客户","supports_sme":"FALSE","suitable_company_scale":"mid_market; corporate","eligible_project_tags":"trade_finance; supply_chain; sustainable_packaging; clean_transport; renewable_energy; energy_efficiency; green_project","preferred_industries":"trade; manufacturing; logistics; supply_chain","mvp_min_esg_score":"70","preferred_esg_ratings":"A+; A; B+","mvp_min_recommended_amount_hkd":"5000000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"1","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"渣打提供可持續貿易融資方案，包括與綠色和可持續金融產品框架內合資格項目相關的貿易流動性支持。","best_for":"具有跨境貿易、供應鏈融資或較大貿易額度需求的企業。","mvp_matching_note":"當前demo企業規模和單筆融資金額偏小，因此一般作為條件備選；如未來發展為跨境綠色包裝供應鏈訂單，可提高匹配優先級。","source_institution":"Standard Chartered","source_url":"https://www.sc.com/en/corporate-investment-banking/transaction-banking/sustainable-trade-financing"},{"product_id":"SCB_GREEN_SUSTAINABLE_PRODUCT_FRAMEWORK_LOAN","bank_name_cn":"渣打銀行香港","bank_name_en":"Standard Chartered","product_name_cn":"綠色及可持續產品框架下貸款","product_name_en":"Green and Sustainable Product Framework loans","product_type":"green_or_sustainability_related_loan","target_customer":"企業及機構客户","supports_sme":"FALSE","suitable_company_scale":"mid_market; corporate","eligible_project_tags":"renewable_energy; energy_efficiency; clean_transport; green_building; sustainable_water; pollution_prevention; circular_economy; carbon_reduction; green_project","preferred_industries":"all_industries","mvp_min_esg_score":"70","preferred_esg_ratings":"A+; A; B+","mvp_min_recommended_amount_hkd":"5000000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"TRUE","official_features_summary":"渣打綠色及可持續產品框架覆蓋綠色/社會貸款、可持續發展掛鈎貸款、可持續貿易金融等產品，並設有交易及客户資格準則以降低漂綠風險。","best_for":"融資金額較大、希望進行綠色項目融資或可持續表現掛鈎融資的企業。","mvp_matching_note":"由於demo企業當前融資金額較小，作為未來規模擴大後的備選。","source_institution":"Standard Chartered","source_url":"https://www.sc.com/en/about/sustainability/bespoke-sustainable-finance-solutions/"},{"product_id":"UOB_GREEN_FINANCE_U_SERIES","bank_name_cn":"大華銀行","bank_name_en":"UOB","product_name_cn":"U-Series綠色融資方案","product_name_en":"U-Series green finance solutions","product_type":"green_finance_framework_solution","target_customer":"企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"green_building; clean_transport; fleet_electrification; energy_efficiency; renewable_energy; sustainable_packaging; green_project","preferred_industries":"all_industries; construction; transport; manufacturing","mvp_min_esg_score":"60","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"1000000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"U-Series以行業夥伴和銀行框架降低企業進入可持續融資的複雜度，覆蓋U-Build、U-Drive、U-Energy等方案。","best_for":"電動車生態、建築節能、綠色能源和供應鏈項目。","mvp_matching_note":"適合電動車替換和節能/能源類項目，但需向香港團隊確認本地產品適用口徑。","source_institution":"UOB","source_url":"https://www.uobgroup.com/sustainable-solutions/green-finance/u-series.page"},{"product_id":"UOB_CIRCULAR_FINANCE","bank_name_cn":"大華銀行","bank_name_en":"UOB","product_name_cn":"循環經濟綠色融資","product_name_en":"Circular Finance for Green Circular Economy","product_type":"circular_economy_finance","target_customer":"循環經濟相關企業","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"circular_economy; waste_reduction; waste_recycling; resource_conservation; sustainable_packaging; pollution_prevention","preferred_industries":"recycling; manufacturing; packaging; materials","mvp_min_esg_score":"60","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"1000000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"循環經濟融資支持renew、reuse、reduce相關企業和業務，包括材料回收、資源效率和循環經濟價值鏈。","best_for":"再生材料、循環包裝、廢棄物減量和資源效率項目。","mvp_matching_note":"適合再生紙產品線升級項目，但需確認香港分行具體可辦理產品和文件要求。","source_institution":"UOB","source_url":"https://www.uobgroup.com/sustainable-solutions/green-finance/circular-economy.page"},{"product_id":"CCB_ASIA_GREEN_SUSTAINABLE_LOANS","bank_name_cn":"建設銀行亞洲","bank_name_en":"China Construction Bank (Asia)","product_name_cn":"綠色及可持續貸款","product_name_en":"Green and Sustainable Loans","product_type":"green_or_sustainability_related_loan","target_customer":"企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"green_project; green_industry; energy_efficiency; renewable_energy; carbon_reduction; sustainability_performance; transition","preferred_industries":"all_industries; green_industries","mvp_min_esg_score":"60","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"1000000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"TRUE","official_features_summary":"建設銀行亞洲提供綠色及可持續貸款和可持續發展掛鈎貸款，支持企業綠色轉型和綠色行業發展，並協助取得第三方認證。","best_for":"需要銀行綠色金融團隊支持和第三方認證協助的企業。","mvp_matching_note":"適合作為中資銀行綠色貸款備選，特別是融資金額達到100萬港元以上項目。","source_institution":"CCB Asia","source_url":"https://www.asia.ccb.com/hongkong/enterprise/corporate_finance/green_finance.html"},{"product_id":"ICBC_ASIA_ESG_LOANS","bank_name_cn":"工商銀行亞洲","bank_name_en":"ICBC (Asia)","product_name_cn":"ESG貸款","product_name_en":"Environmental, Social and Governance Loans","product_type":"green_social_or_sustainability_linked_loan","target_customer":"有ESG融資需求的企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"green_project; sustainability_performance; energy_efficiency; renewable_energy; clean_transport; carbon_reduction; transition","preferred_industries":"all_industries","mvp_min_esg_score":"60","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"1500000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"TRUE","official_features_summary":"ESG貸款包括綠色貸款、社會貸款、可持續發展掛鈎貸款等；銀行會評估借款人財務及相關材料，並要求外部評審機構評估和出具認證或意見。","best_for":"需要定製化ESG融資結構並能提供外部評審材料的企業。","mvp_matching_note":"當前demo企業項目金額較小，若融資金額合併或未來擴大，可作為備選。","source_institution":"ICBC Asia","source_url":"https://www.icbcasia.com/hk/en/commercial/commercial-lending/structured-finance/default.html"},{"product_id":"HSBC_HK_GREEN_LOANS","bank_name_cn":"滙豐銀行香港","bank_name_en":"HSBC Hong Kong","product_name_cn":"綠色貸款","product_name_en":"Green Loans","product_type":"use_of_proceeds_green_loan","target_customer":"商業銀行企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"renewable_energy; energy_efficiency; clean_transport; green_building; pollution_prevention; sustainable_water; carbon_reduction","preferred_industries":"all_industries","mvp_min_esg_score":"60","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"800000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"HSBC香港商業銀行可持續發展頁面列示Green Loans，用於支持符合綠色用途的融資或再融資安排；公開資料未披露固定利率、額度或統一審批門檻。","best_for":"用途清晰、可證明環境收益的節能、可再生能源、綠色建築或清潔交通項目。","mvp_matching_note":"作為滙豐一般綠色貸款選項匹配；需要企業準備綠色用途證明、項目合同、環境收益測算及銀行要求的評審材料，實際條件需向銀行確認。","source_institution":"HSBC","source_url":"https://www.business.hsbc.com.hk/en-gb/campaigns/sustainability-for-business"},{"product_id":"HSBC_HK_SOCIAL_LOANS","bank_name_cn":"滙豐銀行香港","bank_name_en":"HSBC Hong Kong","product_name_cn":"社會貸款","product_name_en":"Social Loans","product_type":"social_loan","target_customer":"商業銀行企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"social_project; community_development; affordable_basic_infrastructure; social_performance; sme_support","preferred_industries":"all_industries; social_enterprise; public_service","mvp_min_esg_score":"60","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"800000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"HSBC香港商業銀行可持續發展頁面列示Social Loans，用於支持具有社會效益的融資安排；公開資料未披露固定額度、期限或利率。","best_for":"項目目標偏社會影響、普惠服務、社區服務或中小企支持，而非單純環境項目的企業。","mvp_matching_note":"只有在企業上傳資料中存在社會效益項目時推薦；綠色項目不足以自動構成社會貸款適配，正式分類需銀行確認。","source_institution":"HSBC","source_url":"https://www.business.hsbc.com.hk/en-gb/campaigns/sustainability-for-business"},{"product_id":"HSBC_HK_SUSTAINABILITY_LINKED_LOANS","bank_name_cn":"滙豐銀行香港","bank_name_en":"HSBC Hong Kong","product_name_cn":"可持續發展掛鈎貸款","product_name_en":"Sustainability-Linked Loans","product_type":"sustainability_linked_loan","target_customer":"商業銀行企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"sustainability_performance; carbon_reduction; energy_efficiency; waste_reduction; social_performance; governance","preferred_industries":"all_industries","mvp_min_esg_score":"70","preferred_esg_ratings":"A+; A; B+","mvp_min_recommended_amount_hkd":"1000000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"FALSE","requires_kpi_or_target_tracking":"TRUE","official_features_summary":"HSBC香港商業銀行可持續發展頁面列示Sustainability-Linked Loans，融資安排與企業可持續發展表現或目標相關；公開資料未披露統一KPI門檻。","best_for":"已經有年度減碳、能源效率、廢棄物或社會治理KPI，並可持續跟蹤表現的企業。","mvp_matching_note":"不同於HKGOC路徑的特定SIL條目，本條用於一般SLL初篩；需準備KPI、SPT、基準年和複核安排。","source_institution":"HSBC","source_url":"https://www.business.hsbc.com.hk/en-gb/campaigns/sustainability-for-business"},{"product_id":"HSBC_HK_GREEN_TRADE_FINANCE","bank_name_cn":"滙豐銀行香港","bank_name_en":"HSBC Hong Kong","product_name_cn":"綠色貿易融資","product_name_en":"Green Trade Finance","product_type":"sustainable_trade_finance","target_customer":"有綠色採購、綠色供應鏈或出口訂單的企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"sustainable_trade; green_supply_chain; green_product; renewable_energy; energy_efficiency; clean_transport; waste_reduction","preferred_industries":"trading; manufacturing; logistics; all_industries","mvp_min_esg_score":"60","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"500000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"1","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"HSBC香港商業銀行頁面列示Green Trade Finance，適用於綠色或可持續貿易場景；公開資料未給出固定利率或額度。","best_for":"綠色產品採購、綠色設備進口、可持續包裝訂單、低碳供應鏈應收或貿易流動資金。","mvp_matching_note":"貿易融資通常期限較短，若企業項目是多年固定資產投資，應只作為補充流動資金選項。","source_institution":"HSBC","source_url":"https://www.business.hsbc.com.hk/en-gb/campaigns/sustainability-for-business"},{"product_id":"HSBC_HK_SUSTAINABLE_TAXI_FINANCE","bank_name_cn":"滙豐銀行香港","bank_name_en":"HSBC Hong Kong","product_name_cn":"可持續出租車融資","product_name_en":"Sustainable Taxi Finance","product_type":"clean_transport_vehicle_finance","target_customer":"出租車車主、車隊及相關交通營運客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market","eligible_project_tags":"clean_transport; electric_vehicle; low_emission_vehicle; carbon_reduction","preferred_industries":"transportation; logistics","mvp_min_esg_score":"55","preferred_esg_ratings":"A+; A; B+; B; C+","mvp_min_recommended_amount_hkd":"300000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"FALSE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"HSBC香港商業銀行頁面列示Sustainable Taxi Finance，定位於支持更可持續的出租車融資；公開資料未披露統一授信細節。","best_for":"電動或低排放車輛替換、車隊減碳項目以及有車輛購置證明的交通營運客户。","mvp_matching_note":"僅在項目標籤包含清潔交通、電動車或低排放車輛時推薦；車輛型號、牌照、按揭或抵押安排需銀行確認。","source_institution":"HSBC","source_url":"https://www.business.hsbc.com.hk/en-gb/campaigns/sustainability-for-business"},{"product_id":"HANGSENG_SOCIAL_LOAN","bank_name_cn":"恒生銀行","bank_name_en":"Hang Seng Bank","product_name_cn":"社會貸款","product_name_en":"Social Loans","product_type":"social_loan","target_customer":"商業銀行企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"social_project; community_development; access_to_essential_services; sme_support; employment","preferred_industries":"all_industries; social_enterprise; public_service","mvp_min_esg_score":"60","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"800000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"恒生銀行商業綠色融資頁面列示Social Loans，與Green Loans和Sustainability Linked Loans並列；公開頁面未披露固定利率或額度。","best_for":"社會效益項目、社區服務、就業支持或普惠服務相關融資。","mvp_matching_note":"僅在企業資料顯示明確社會效益用途時匹配；綠色環保項目應優先匹配綠色貸款或SLL。","source_institution":"Hang Seng Bank","source_url":"https://www.hangseng.com/business/scale-your-business/lending-green-financing/"},{"product_id":"HANGSENG_SME_GREEN_EQUIPMENT_FINANCING","bank_name_cn":"恒生銀行","bank_name_en":"Hang Seng Bank","product_name_cn":"中小企綠色設備融資平台","product_name_en":"SME Green Equipment Financing Platform","product_type":"green_equipment_finance","target_customer":"中小企客户","supports_sme":"TRUE","suitable_company_scale":"SME","eligible_project_tags":"green_equipment; energy_efficiency; renewable_energy; solar; electric_vehicle; carbon_reduction","preferred_industries":"all_industries; manufacturing; property; transportation","mvp_min_esg_score":"55","preferred_esg_ratings":"A+; A; B+; B; C+","mvp_min_recommended_amount_hkd":"300000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"FALSE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"恒生頁面列示SME Green Equipment Financing Platform，幫助中小企識別綠色設備供應商並開展融資申請；公開資料未披露統一利率或額度。","best_for":"中小企採購節能設備、太陽能系統、電動車或其他綠色設備，且已有供應商報價的項目。","mvp_matching_note":"可在設備購置類項目中優先匹配；需企業補充供應商報價、設備規格、預計節能/減排測算和銀行要求文件。","source_institution":"Hang Seng Bank","source_url":"https://www.hangseng.com/business/scale-your-business/lending-green-financing/"},{"product_id":"BOCHK_GREEN_LOAN","bank_name_cn":"中國銀行香港","bank_name_en":"Bank of China (Hong Kong)","product_name_cn":"綠色貸款","product_name_en":"Green Loans","product_type":"use_of_proceeds_green_loan","target_customer":"各行業企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"renewable_energy; energy_efficiency; pollution_prevention; waste_reduction; waste_recycling; clean_transport; green_technology; sustainable_water; green_building; carbon_reduction","preferred_industries":"all_industries","mvp_min_esg_score":"60","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"1000000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"中銀香港頁面列示綠色和可持續相關貸款，支持合資格綠色、社會和轉型項目；本條拆分為專款專用綠色貸款場景。","best_for":"有明確綠色資金用途、項目合同和環境收益測算的綠色項目融資。","mvp_matching_note":"與原綜合條目並存，用於更精細匹配綠色項目；實際貸款結構、認證和額度需由中銀香港確認。","source_institution":"BOCHK","source_url":"https://www.bochk.com/en/corporate/ESG/greenloan.html"},{"product_id":"BOCHK_SUSTAINABILITY_LINKED_LOAN","bank_name_cn":"中國銀行香港","bank_name_en":"Bank of China (Hong Kong)","product_name_cn":"可持續發展掛鈎貸款","product_name_en":"Sustainability-linked Loans","product_type":"sustainability_linked_loan","target_customer":"各行業企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"sustainability_performance; carbon_reduction; energy_efficiency; waste_reduction; governance; social_performance","preferred_industries":"all_industries","mvp_min_esg_score":"70","preferred_esg_ratings":"A+; A; B+","mvp_min_recommended_amount_hkd":"1000000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"FALSE","requires_kpi_or_target_tracking":"TRUE","official_features_summary":"中銀香港頁面説明貸款可包括可持續發展掛鈎貸款，並要求符合綠色貸款原則或可持續發展掛鈎貸款原則等；公開資料未披露固定利率。","best_for":"已有可量化ESG指標、年度目標和內部跟蹤機制的企業。","mvp_matching_note":"用於將BOCHK綜合產品拆分為KPI/SPT路徑；企業需準備KPI、SPT、基準年、複核安排和銀行要求的外部意見。","source_institution":"BOCHK","source_url":"https://www.bochk.com/en/corporate/ESG/greenloan.html"},{"product_id":"DBS_HK_SUSTAINABLE_SUPPLY_CHAIN_FINANCE","bank_name_cn":"星展銀行香港","bank_name_en":"DBS Hong Kong","product_name_cn":"可持續供應鏈融資","product_name_en":"Sustainable Supply Chain Finance","product_type":"sustainable_trade_finance","target_customer":"企業供應鏈、貿易及採購客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"sustainable_trade; green_supply_chain; green_product; waste_reduction; carbon_reduction; responsible_sourcing","preferred_industries":"trading; manufacturing; logistics; all_industries","mvp_min_esg_score":"60","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"500000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"1","requires_external_review":"FALSE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"DBS香港中小企可持續發展融資計劃頁面列出可持續供應鏈融資相關場景，並支持中小企綠色轉型；公開資料未披露固定授信條件。","best_for":"綠色採購、供應鏈減碳、可持續包裝或綠色產品訂單相關的貿易融資。","mvp_matching_note":"以短期營運資金或貿易項下融資為主；項目為長期固定資產投資時不應作為首選。","source_institution":"DBS Hong Kong","source_url":"https://www.dbs.com.hk/sme/sustainable-finance-programme"},{"product_id":"BEA_SOCIAL_LOAN","bank_name_cn":"東亞銀行","bank_name_en":"The Bank of East Asia","product_name_cn":"社會貸款","product_name_en":"Social Loan","product_type":"social_loan","target_customer":"企業銀行客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"social_project; community_development; access_to_essential_services; sme_support; employment","preferred_industries":"all_industries; social_enterprise; public_service","mvp_min_esg_score":"60","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"800000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"東亞銀行綠色及可持續產品頁面列示Social Loan，與Green Loan和Sustainability-linked Loan並列；公開資料未披露統一利率或額度。","best_for":"有社會效益資金用途、可描述受益羣體和成果指標的企業融資。","mvp_matching_note":"只有社會項目資料充分時推薦；普通綠色項目仍應優先匹配BEA Green Loan。","source_institution":"BEA","source_url":"https://www.hkbea.com/html/en/bea-corporate-banking-green-and-sustainable-products.html"},{"product_id":"SCB_GREEN_TRADE_FACILITY","bank_name_cn":"渣打銀行香港","bank_name_en":"Standard Chartered Hong Kong","product_name_cn":"綠色貿易融資額度","product_name_en":"Green Trade Facility","product_type":"sustainable_trade_finance","target_customer":"企業及機構貿易融資客户","supports_sme":"FALSE","suitable_company_scale":"mid_market; corporate","eligible_project_tags":"sustainable_trade; green_supply_chain; green_product; energy_efficiency; renewable_energy; clean_transport","preferred_industries":"trading; manufacturing; logistics; all_industries","mvp_min_esg_score":"65","preferred_esg_ratings":"A+; A; B+","mvp_min_recommended_amount_hkd":"1500000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"1","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"渣打可持續貿易融資頁面列示Green Trade Facility，可支持與綠色或可持續貿易相關的融資；公開資料未披露香港固定利率或額度。","best_for":"中大型企業的綠色採購、綠色產品貿易、可持續供應鏈訂單及貿易流動資金。","mvp_matching_note":"該產品主要按渣打全球交易銀行可持續貿易融資框架整理；香港本地准入、貿易單據和評審要求需銀行確認。","source_institution":"Standard Chartered","source_url":"https://www.sc.com/en/corporate-investment-banking/transaction-banking/sustainable-trade-financing"},{"product_id":"UOB_U_SOLAR","bank_name_cn":"大華銀行","bank_name_en":"UOB","product_name_cn":"U-Solar太陽能融資","product_name_en":"U-Solar","product_type":"solar_finance","target_customer":"太陽能項目業主、供應商及企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"solar; renewable_energy; carbon_reduction; green_equipment","preferred_industries":"property; manufacturing; energy; all_industries","mvp_min_esg_score":"55","preferred_esg_ratings":"A+; A; B+; B; C+","mvp_min_recommended_amount_hkd":"300000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"UOB U-Series頁面列示U-Solar，用於太陽能相關綠色融資；公開資料未披露香港統一授信條件。","best_for":"光伏系統安裝、太陽能設備採購及相關節能減碳項目。","mvp_matching_note":"按UOB集團綠色融資方案整理；香港本地可辦理性、供應商名單和抵押安排需確認。","source_institution":"UOB","source_url":"https://www.uobgroup.com/sustainable-solutions/green-finance/u-series.page"},{"product_id":"UOB_U_ENERGY","bank_name_cn":"大華銀行","bank_name_en":"UOB","product_name_cn":"U-Energy能源效率融資","product_name_en":"U-Energy","product_type":"energy_efficiency_finance","target_customer":"節能改造及綠色設備企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"energy_efficiency; green_equipment; carbon_reduction; building_efficiency","preferred_industries":"property; manufacturing; hospitality; all_industries","mvp_min_esg_score":"55","preferred_esg_ratings":"A+; A; B+; B; C+","mvp_min_recommended_amount_hkd":"300000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"UOB U-Series頁面列示U-Energy，用於能源效率相關融資；公開資料未披露香港統一利率或額度。","best_for":"LED、空調、能源管理系統、生產設備節能改造及樓宇能效提升。","mvp_matching_note":"適合與企業上傳的節能設備報價和節省電費測算結合；香港本地辦理口徑需確認。","source_institution":"UOB","source_url":"https://www.uobgroup.com/sustainable-solutions/green-finance/u-series.page"},{"product_id":"UOB_U_DRIVE","bank_name_cn":"大華銀行","bank_name_en":"UOB","product_name_cn":"U-Drive電動車融資","product_name_en":"U-Drive","product_type":"clean_transport_vehicle_finance","target_customer":"企業車隊、物流及交通客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"electric_vehicle; clean_transport; low_emission_vehicle; carbon_reduction","preferred_industries":"transportation; logistics; all_industries","mvp_min_esg_score":"55","preferred_esg_ratings":"A+; A; B+; B; C+","mvp_min_recommended_amount_hkd":"300000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"UOB U-Series頁面列示U-Drive，用於電動車或低排放交通工具相關融資；公開資料未披露香港統一授信條件。","best_for":"企業車隊電動化、低排放車輛購置及充電配套項目。","mvp_matching_note":"需企業提供車輛報價、用途和預計減排；香港本地車型、牌照和抵押安排需銀行確認。","source_institution":"UOB","source_url":"https://www.uobgroup.com/sustainable-solutions/green-finance/u-series.page"},{"product_id":"UOB_U_BUILD","bank_name_cn":"大華銀行","bank_name_en":"UOB","product_name_cn":"U-Build綠色建築融資","product_name_en":"U-Build","product_type":"green_building_finance","target_customer":"房地產、物業、建築及企業業主客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"green_building; building_efficiency; energy_efficiency; carbon_reduction; green_certification","preferred_industries":"property; construction; hospitality; all_industries","mvp_min_esg_score":"60","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"800000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"UOB U-Series頁面列示U-Build，用於綠色建築或樓宇可持續改造相關融資；公開資料未披露香港統一額度。","best_for":"樓宇能效提升、綠色建築認證、節能改造及可持續物業項目。","mvp_matching_note":"適合有綠色建築認證、改造合同或能源審計的項目；香港本地辦理口徑需確認。","source_institution":"UOB","source_url":"https://www.uobgroup.com/sustainable-solutions/green-finance/u-series.page"},{"product_id":"UOB_SUSTAINABILITY_LINKED_FINANCE","bank_name_cn":"大華銀行","bank_name_en":"UOB","product_name_cn":"可持續發展掛鈎融資","product_name_en":"Sustainability-Linked Finance","product_type":"sustainability_linked_loan","target_customer":"企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"sustainability_performance; carbon_reduction; energy_efficiency; governance; social_performance","preferred_industries":"all_industries","mvp_min_esg_score":"70","preferred_esg_ratings":"A+; A; B+","mvp_min_recommended_amount_hkd":"1000000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"FALSE","requires_kpi_or_target_tracking":"TRUE","official_features_summary":"UOB Sustainability-Linked Finance頁面説明融資與借款人的可持續表現目標掛鈎；公開資料未披露固定利率或額度。","best_for":"已有量化SPT/KPI、可定期披露可持續表現並希望融資條件與目標掛鈎的企業。","mvp_matching_note":"按UOB集團可持續發展掛鈎融資方案整理；香港本地辦理口徑和SPT複核要求需確認。","source_institution":"UOB","source_url":"https://www.uobgroup.com/sustainable-solutions/sustainability-linked.page"},{"product_id":"UOB_SUSTAINABLE_TRADE_FINANCE","bank_name_cn":"大華銀行","bank_name_en":"UOB","product_name_cn":"可持續貿易融資","product_name_en":"Sustainable Trade Finance","product_type":"sustainable_trade_finance","target_customer":"貿易及供應鏈企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"sustainable_trade; green_supply_chain; responsible_sourcing; green_product; carbon_reduction","preferred_industries":"trading; manufacturing; logistics; all_industries","mvp_min_esg_score":"60","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"500000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"1","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"UOB可持續解決方案頁面列示Sustainable Trade Finance，支持可持續貿易和供應鏈相關融資；公開資料未披露香港統一審批條件。","best_for":"綠色產品訂單、可持續採購、綠色供應鏈應收賬款或短期貿易資金需求。","mvp_matching_note":"僅作貿易/供應鏈融資備選；長期項目融資應優先匹配綠色貸款或設備融資。","source_institution":"UOB","source_url":"https://www.uobgroup.com/sustainable-solutions/index.page"},{"product_id":"UOB_TRANSITION_FINANCE","bank_name_cn":"大華銀行","bank_name_en":"UOB","product_name_cn":"轉型融資","product_name_en":"Transition Finance","product_type":"transition_finance","target_customer":"需進行低碳轉型的企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"transition; carbon_reduction; energy_efficiency; clean_transport; sustainable_manufacturing","preferred_industries":"manufacturing; transportation; property; all_industries","mvp_min_esg_score":"65","preferred_esg_ratings":"A+; A; B+","mvp_min_recommended_amount_hkd":"1000000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"TRUE","official_features_summary":"UOB可持續解決方案頁面列示Transition Finance，用於支持企業低碳轉型；公開資料未披露香港統一利率或額度。","best_for":"企業已有轉型路徑、減碳目標或高碳環節改善計劃的融資。","mvp_matching_note":"項目需説明基準排放、轉型路線和避免漂綠的依據；香港本地分類和評審要求需確認。","source_institution":"UOB","source_url":"https://www.uobgroup.com/sustainable-solutions/index.page"},{"product_id":"CCB_ASIA_SUSTAINABILITY_LINKED_LOAN","bank_name_cn":"建設銀行亞洲","bank_name_en":"China Construction Bank (Asia)","product_name_cn":"可持續發展掛鈎貸款","product_name_en":"Sustainability-linked Loans","product_type":"sustainability_linked_loan","target_customer":"企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"sustainability_performance; carbon_reduction; energy_efficiency; transition; governance","preferred_industries":"all_industries; green_industries","mvp_min_esg_score":"70","preferred_esg_ratings":"A+; A; B+","mvp_min_recommended_amount_hkd":"1000000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"FALSE","requires_kpi_or_target_tracking":"TRUE","official_features_summary":"建設銀行亞洲綠色金融頁面列示綠色及可持續貸款和可持續發展掛鈎貸款，並説明可協助第三方認證；公開資料未披露統一利率。","best_for":"已有KPI/SPT或轉型目標，並希望用中資銀行綠色金融服務的企業。","mvp_matching_note":"從原CCB Asia綜合條目拆分出SLL路徑；需準備目標、基準和複核材料。","source_institution":"CCB Asia","source_url":"https://www.asia.ccb.com/hongkong/enterprise/corporate_finance/green_finance.html"},{"product_id":"ICBC_ASIA_GREEN_LOAN","bank_name_cn":"工商銀行亞洲","bank_name_en":"ICBC (Asia)","product_name_cn":"綠色貸款","product_name_en":"Green Loans","product_type":"use_of_proceeds_green_loan","target_customer":"有綠色融資需求的企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"green_project; renewable_energy; energy_efficiency; clean_transport; green_building; carbon_reduction; transition","preferred_industries":"all_industries","mvp_min_esg_score":"60","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"1000000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"工銀亞洲ESG貸款頁面説明ESG貸款包括綠色貸款、社會貸款及可持續發展掛鈎貸款等，並要求外部評審機構評估或出具意見。","best_for":"綠色用途清晰、可提供外部評審或銀行認可證明的綠色項目。","mvp_matching_note":"從ICBC Asia ESG Loans綜合條目拆分綠色貸款路徑；實際申請條件、評審機構和額度需銀行確認。","source_institution":"ICBC Asia","source_url":"https://www.icbcasia.com/hk/en/commercial/commercial-lending/structured-finance/default.html"},{"product_id":"ICBC_ASIA_SOCIAL_LOAN","bank_name_cn":"工商銀行亞洲","bank_name_en":"ICBC (Asia)","product_name_cn":"社會貸款","product_name_en":"Social Loans","product_type":"social_loan","target_customer":"有社會效益融資需求的企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"social_project; community_development; access_to_essential_services; employment; sme_support","preferred_industries":"all_industries; social_enterprise","mvp_min_esg_score":"60","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"1000000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"工銀亞洲ESG貸款頁面列明ESG貸款包括社會貸款；公開資料未披露統一利率、額度或期限。","best_for":"可説明社會效益和受益羣體的項目融資。","mvp_matching_note":"僅在企業資料存在社會項目時推薦；需外部評審或銀行認可證明，實際分類由銀行確認。","source_institution":"ICBC Asia","source_url":"https://www.icbcasia.com/hk/en/commercial/commercial-lending/structured-finance/default.html"},{"product_id":"ICBC_ASIA_SUSTAINABILITY_LINKED_LOAN","bank_name_cn":"工商銀行亞洲","bank_name_en":"ICBC (Asia)","product_name_cn":"可持續發展掛鈎貸款","product_name_en":"Sustainability-linked Loans","product_type":"sustainability_linked_loan","target_customer":"有ESG表現提升目標的企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"sustainability_performance; carbon_reduction; energy_efficiency; transition; governance","preferred_industries":"all_industries","mvp_min_esg_score":"70","preferred_esg_ratings":"A+; A; B+","mvp_min_recommended_amount_hkd":"1500000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"FALSE","requires_kpi_or_target_tracking":"TRUE","official_features_summary":"工銀亞洲ESG貸款頁面列明ESG貸款包括可持續發展掛鈎貸款；銀行會評估借款人財務及相關材料，並要求外部評審機構評估或出具意見。","best_for":"已有可持續發展KPI/SPT並能接受年度複核的企業。","mvp_matching_note":"需準備KPI、SPT、基準年、跟蹤機制和外部意見；不應僅憑單一綠色項目自動推薦為首選。","source_institution":"ICBC Asia","source_url":"https://www.icbcasia.com/hk/en/commercial/commercial-lending/structured-finance/default.html"},{"product_id":"BOSHK_GREEN_LOAN","bank_name_cn":"上海銀行香港","bank_name_en":"Bank of Shanghai (Hong Kong)","product_name_cn":"綠色貸款","product_name_en":"Green Loans","product_type":"use_of_proceeds_green_loan","target_customer":"企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"green_project; energy_efficiency; renewable_energy; green_building; clean_transport; carbon_reduction","preferred_industries":"all_industries; green_industries","mvp_min_esg_score":"60","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"1000000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"上海銀行香港ESG頁面列示Green Loans並披露綠色金融組合數據；公開資料未披露統一利率、額度或期限。","best_for":"希望納入中資銀行綠色融資備選的綠色項目融資。","mvp_matching_note":"來源為銀行ESG/綠色金融公開頁面；實際產品准入、第三方評審和授信條件需向銀行確認。","source_institution":"Bank of Shanghai (Hong Kong)","source_url":"https://www.bosc-hk.com/en/About/cishan.html"},{"product_id":"BOSHK_SUSTAINABILITY_PERFORMANCE_LINKED_LOAN","bank_name_cn":"上海銀行香港","bank_name_en":"Bank of Shanghai (Hong Kong)","product_name_cn":"可持續發展表現掛鈎貸款","product_name_en":"Sustainability Performance-Linked Loans","product_type":"sustainability_linked_loan","target_customer":"企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"sustainability_performance; carbon_reduction; energy_efficiency; transition; governance","preferred_industries":"all_industries","mvp_min_esg_score":"70","preferred_esg_ratings":"A+; A; B+","mvp_min_recommended_amount_hkd":"1000000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"FALSE","requires_kpi_or_target_tracking":"TRUE","official_features_summary":"上海銀行香港ESG頁面列示Sustainability Performance-Linked Loans，並披露綠色金融業務指標；公開資料未披露統一KPI或利率。","best_for":"已有可持續發展表現目標並希望貸款條款與目標表現掛鈎的企業。","mvp_matching_note":"來源為銀行ESG/綠色金融公開頁面；企業需準備KPI、SPT、基準年和複核安排。","source_institution":"Bank of Shanghai (Hong Kong)","source_url":"https://www.bosc-hk.com/en/About/cishan.html"},{"product_id":"CHONG_HING_GREEN_LOAN","bank_name_cn":"創興銀行","bank_name_en":"Chong Hing Bank","product_name_cn":"綠色貸款","product_name_en":"Green Loan","product_type":"use_of_proceeds_green_loan","target_customer":"商業銀行企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"green_project; renewable_energy; energy_efficiency; clean_transport; green_building; pollution_prevention; carbon_reduction","preferred_industries":"all_industries","mvp_min_esg_score":"60","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"800000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"創興銀行商業銀行服務頁面列示Green Loan，並説明資金用於綠色項目；公開資料未披露統一利率或審批門檻。","best_for":"綠色項目用途清晰、需要本地銀行綠色貸款備選的企業。","mvp_matching_note":"需準備資金用途、項目證明和綠色評審或銀行認可材料；實際額度、期限和擔保需銀行確認。","source_institution":"Chong Hing Bank","source_url":"https://www.chbank.com/en/commercial/banking-services/green/greenloan/index.shtml"},{"product_id":"CHONG_HING_SUSTAINABILITY_LINKED_LOAN","bank_name_cn":"創興銀行","bank_name_en":"Chong Hing Bank","product_name_cn":"可持續發展掛鈎貸款","product_name_en":"Sustainability-linked Loan","product_type":"sustainability_linked_loan","target_customer":"商業銀行企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"sustainability_performance; carbon_reduction; energy_efficiency; governance; social_performance","preferred_industries":"all_industries","mvp_min_esg_score":"70","preferred_esg_ratings":"A+; A; B+","mvp_min_recommended_amount_hkd":"800000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"FALSE","requires_kpi_or_target_tracking":"TRUE","official_features_summary":"創興銀行商業銀行服務頁面列示Sustainability-linked Loan，用於將融資與可持續發展表現指標掛鈎；公開資料未披露統一利率。","best_for":"有可量化ESG目標、年度KPI和複核機制的企業。","mvp_matching_note":"需準備KPI/SPT、基準年、目標水平和外部複核安排；是否適用SME需銀行進一步確認。","source_institution":"Chong Hing Bank","source_url":"https://www.chbank.com/en/commercial/banking-services/green/greenloan/index.shtml"},{"product_id":"CNCBI_GREEN_LOAN","bank_name_cn":"中信銀行國際","bank_name_en":"China CITIC Bank International","product_name_cn":"綠色貸款","product_name_en":"Green Loan","product_type":"use_of_proceeds_green_loan","target_customer":"企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"green_project; renewable_energy; energy_efficiency; clean_transport; green_building; carbon_reduction","preferred_industries":"all_industries; green_industries","mvp_min_esg_score":"60","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"1000000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"中信銀行國際公開TCFD/可持續發展資料提及綠色貸款業務；公開資料未披露統一產品利率、期限或審批門檻。","best_for":"需要把中信銀行國際納入備選的綠色項目融資。","mvp_matching_note":"來源為銀行公開披露資料，不是詳細產品頁；正式產品口徑、申請條件和可辦理性需向銀行確認。","source_institution":"CNCBI","source_url":"https://www.cncbinternational.com/about-us/investor-relations/regulatory-disclosures/en/index.jsp"},{"product_id":"CNCBI_SUSTAINABILITY_LINKED_LOAN","bank_name_cn":"中信銀行國際","bank_name_en":"China CITIC Bank International","product_name_cn":"可持續發展掛鈎貸款","product_name_en":"Sustainability-linked Loan","product_type":"sustainability_linked_loan","target_customer":"企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"sustainability_performance; carbon_reduction; energy_efficiency; transition; governance","preferred_industries":"all_industries","mvp_min_esg_score":"70","preferred_esg_ratings":"A+; A; B+","mvp_min_recommended_amount_hkd":"1000000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"FALSE","requires_kpi_or_target_tracking":"TRUE","official_features_summary":"中信銀行國際公開TCFD/可持續發展資料提及sustainability-linked loan業務；公開資料未披露統一KPI、利率或額度。","best_for":"ESG評分較高、已設置KPI/SPT並需要中資銀行可持續融資備選的企業。","mvp_matching_note":"來源為銀行公開披露資料，不是詳細產品頁；需向銀行確認具體KPI、複核和審批要求。","source_institution":"CNCBI","source_url":"https://www.cncbinternational.com/about-us/investor-relations/regulatory-disclosures/en/index.jsp"},{"product_id":"BOCOM_HK_GREEN_LOAN","bank_name_cn":"交通銀行香港","bank_name_en":"Bank of Communications Hong Kong","product_name_cn":"綠色貸款","product_name_en":"Green Loan","product_type":"use_of_proceeds_green_loan","target_customer":"企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"green_project; renewable_energy; energy_efficiency; clean_transport; green_building; carbon_reduction","preferred_industries":"all_industries; green_industries","mvp_min_esg_score":"60","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"1000000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"交通銀行香港公開TCFD/可持續金融資料提及綠色貸款業務；公開資料未披露統一產品利率、額度或期限。","best_for":"需要補充交通銀行香港作為備選的綠色項目融資。","mvp_matching_note":"來源為銀行公開披露資料，不是詳細產品頁；實際香港業務口徑、申請條件和第三方評審要求需確認。","source_institution":"Bank of Communications Hong Kong","source_url":"https://www.bankcomm.com.hk/hk/uploadhk/infos/202506/30/5066412/20250630173755_BoCom_2024_TCFD_hkb_eng.pdf"},{"product_id":"BOCOM_HK_SUSTAINABILITY_LINKED_LOAN","bank_name_cn":"交通銀行香港","bank_name_en":"Bank of Communications Hong Kong","product_name_cn":"可持續發展掛鈎貸款","product_name_en":"Sustainability-linked Loan","product_type":"sustainability_linked_loan","target_customer":"企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"sustainability_performance; carbon_reduction; energy_efficiency; transition; governance","preferred_industries":"all_industries","mvp_min_esg_score":"70","preferred_esg_ratings":"A+; A; B+","mvp_min_recommended_amount_hkd":"1000000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"FALSE","requires_kpi_or_target_tracking":"TRUE","official_features_summary":"交通銀行香港公開TCFD/可持續金融資料提及可持續發展掛鈎貸款業務；公開資料未披露統一KPI、利率或額度。","best_for":"已有KPI/SPT、減碳或轉型目標的企業。","mvp_matching_note":"來源為銀行公開披露資料，不是詳細產品頁；需向銀行確認SPT、複核機制和授信條件。","source_institution":"Bank of Communications Hong Kong","source_url":"https://www.bankcomm.com.hk/hk/uploadhk/infos/202506/30/5066412/20250630173755_BoCom_2024_TCFD_hkb_eng.pdf"},{"product_id":"CMB_WING_LUNG_GREEN_SLL","bank_name_cn":"招商永隆銀行","bank_name_en":"CMB Wing Lung Bank","product_name_cn":"綠色及可持續發展掛鈎貸款","product_name_en":"Green and Sustainability-linked Loans","product_type":"green_or_sustainability_related_loan","target_customer":"企業客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"green_project; sustainability_performance; renewable_energy; energy_efficiency; clean_transport; carbon_reduction; transition","preferred_industries":"all_industries; green_industries","mvp_min_esg_score":"65","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"1000000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"TRUE","official_features_summary":"招商永隆銀行公開年報/可持續發展資料披露綠色貸款及可持續發展掛鈎貸款業務；公開資料未披露統一產品利率、額度或審批門檻。","best_for":"需要把招商永隆銀行納入備選的綠色項目或SLL融資。","mvp_matching_note":"來源為銀行公開披露資料，不是詳細產品頁；具體申請條件、香港業務口徑和外部評審要求需向銀行確認。","source_institution":"CMB Wing Lung Bank","source_url":"https://www.cmbwinglungbank.com/wlb_corporate/en/about-us/csr/GreenFinance.html"},{"product_id":"FUBON_HK_GREEN_LOAN","bank_name_cn":"富邦銀行香港","bank_name_en":"Fubon Bank (Hong Kong)","product_name_cn":"綠色貸款","product_name_en":"Green Loan","product_type":"use_of_proceeds_green_loan","target_customer":"企業客户及中小企客户","supports_sme":"TRUE","suitable_company_scale":"SME; mid_market; corporate","eligible_project_tags":"green_project; renewable_energy; energy_efficiency; sustainable_agriculture; carbon_reduction","preferred_industries":"all_industries; agriculture; green_industries","mvp_min_esg_score":"60","preferred_esg_ratings":"A+; A; B+; B","mvp_min_recommended_amount_hkd":"800000","mvp_max_recommended_amount_hkd":"","mvp_max_tenor_years":"","requires_external_review":"TRUE","requires_use_of_proceeds_tracking":"TRUE","requires_kpi_or_target_tracking":"FALSE","official_features_summary":"富邦銀行香港公開氣候/可持續發展資料提及綠色貸款案例和綠色金融業務；公開資料未披露統一產品利率、額度或期限。","best_for":"希望補充中小銀行備選，並有清晰綠色用途和證明材料的項目。","mvp_matching_note":"來源為銀行公開披露資料，不是詳細產品頁；是否可按標準產品辦理、是否需第三方評審和實際授信條件需向銀行確認。","source_institution":"Fubon Bank Hong Kong","source_url":"https://www.fubonbank.com.hk/resources/common/pdf/sustainability24_e.pdf"}];
+    const COLUMNS = ["product_id","bank_name_cn","bank_name_en","product_name_cn","product_name_en","product_type","target_customer","supports_sme","suitable_company_scale","eligible_project_tags","preferred_industries","mvp_min_esg_score","preferred_esg_ratings","mvp_min_recommended_amount_hkd","mvp_max_recommended_amount_hkd","mvp_max_tenor_years","requires_external_review","requires_use_of_proceeds_tracking","requires_kpi_or_target_tracking","official_features_summary","best_for","mvp_matching_note","source_institution","source_url"];
+    const LABELS = {
+      product_id: "產品編號",
+      bank_name_cn: "銀行中文名",
+      bank_name_en: "銀行英文名",
+      product_name_cn: "產品中文名",
+      product_name_en: "產品英文名",
+      product_type: "產品類型",
+      target_customer: "目標客戶",
+      supports_sme: "支持中小企",
+      suitable_company_scale: "適用企業規模",
+      eligible_project_tags: "合資格項目標籤",
+      preferred_industries: "適配行業",
+      mvp_min_esg_score: "最低推薦ESG分",
+      preferred_esg_ratings: "推薦ESG評級",
+      mvp_min_recommended_amount_hkd: "最低推薦金額HKD",
+      mvp_max_recommended_amount_hkd: "最高推薦金額HKD",
+      mvp_max_tenor_years: "最高推薦期限年",
+      requires_external_review: "需外部評審",
+      requires_use_of_proceeds_tracking: "需用途追蹤",
+      requires_kpi_or_target_tracking: "需KPI/目標追蹤",
+      official_features_summary: "官方產品特點摘要",
+      best_for: "最適合場景",
+      mvp_matching_note: "MVP匹配說明",
+      source_institution: "來源機構",
+      source_url: "官方來源鏈接"
+    };
+    const TYPE_LABELS = {
+      sustainability_linked_loan: "可持續發展掛鈎貸款",
+      use_of_proceeds_green_loan: "專款專用綠色貸款",
+      green_or_sustainability_related_loan: "綠色或可持續相關貸款",
+      sme_green_project_finance: "中小企綠色項目融資",
+      sustainable_trade_finance: "可持續貿易融資",
+      green_finance_framework_solution: "綠色融資框架方案",
+      circular_economy_finance: "循環經濟融資",
+      social_loan: "社會貸款",
+      green_equipment_finance: "綠色設備融資",
+      solar_finance: "太陽能融資",
+      energy_efficiency_finance: "能源效率融資",
+      clean_transport_vehicle_finance: "清潔交通車輛融資",
+      green_building_finance: "綠色建築融資",
+      transition_finance: "轉型融資",
+      green_social_or_sustainability_linked_loan: "綠色/社會/可持續掛鈎貸款"
+    };
+    const NUMERIC_COLUMNS = new Set([
+      "mvp_min_esg_score",
+      "mvp_min_recommended_amount_hkd",
+      "mvp_max_recommended_amount_hkd",
+      "mvp_max_tenor_years"
+    ]);
+    const BOOLEAN_COLUMNS = new Set([
+      "supports_sme",
+      "requires_external_review",
+      "requires_use_of_proceeds_tracking",
+      "requires_kpi_or_target_tracking"
+    ]);
+    const LONG_COLUMNS = new Set([
+      "eligible_project_tags",
+      "official_features_summary",
+      "best_for",
+      "mvp_matching_note"
+    ]);
+
+    const state = {
+      sortColumn: "bank_name_cn",
+      sortDir: "asc"
+    };
+
+    const searchInput = document.getElementById("searchInput");
+    const bankFilter = document.getElementById("bankFilter");
+    const typeFilter = document.getElementById("typeFilter");
+    const smeOnly = document.getElementById("smeOnly");
+    const reviewOnly = document.getElementById("reviewOnly");
+    const tableHead = document.getElementById("tableHead");
+    const tableBody = document.getElementById("tableBody");
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function uniqueSorted(values) {
+      return Array.from(new Set(values.filter(Boolean))).sort((a, b) => a.localeCompare(b, "zh-Hant"));
+    }
+
+    function setOptions(select, values, allLabel) {
+      select.innerHTML = '<option value="">' + allLabel + "</option>" + values.map((value) => {
+        return '<option value="' + escapeHtml(value) + '">' + escapeHtml(TYPE_LABELS[value] || value) + "</option>";
+      }).join("");
+    }
+
+    function buildHeader() {
+      tableHead.innerHTML = COLUMNS.map((column) => {
+        const label = LABELS[column] || column;
+        return '<th data-column="' + escapeHtml(column) + '"><button class="sort-button" type="button">' + escapeHtml(label) + '<span class="sort-mark" aria-hidden="true"></span></button></th>';
+      }).join("");
+
+      tableHead.querySelectorAll("th").forEach((th) => {
+        th.addEventListener("click", () => {
+          const column = th.dataset.column;
+          if (state.sortColumn === column) {
+            state.sortDir = state.sortDir === "asc" ? "desc" : "asc";
+          } else {
+            state.sortColumn = column;
+            state.sortDir = "asc";
+          }
+          render();
+        });
+      });
+    }
+
+    function buildFilters() {
+      setOptions(bankFilter, uniqueSorted(DATA.map((row) => row.bank_name_cn)), "全部銀行");
+      setOptions(typeFilter, uniqueSorted(DATA.map((row) => row.product_type)), "全部產品類型");
+    }
+
+    function matchRow(row) {
+      const term = searchInput.value.trim().toLowerCase();
+      if (bankFilter.value && row.bank_name_cn !== bankFilter.value) return false;
+      if (typeFilter.value && row.product_type !== typeFilter.value) return false;
+      if (smeOnly.checked && row.supports_sme !== "TRUE") return false;
+      if (reviewOnly.checked && row.requires_external_review !== "TRUE") return false;
+      if (!term) return true;
+      return COLUMNS.some((column) => String(row[column] ?? "").toLowerCase().includes(term));
+    }
+
+    function compareRows(a, b) {
+      const column = state.sortColumn;
+      const direction = state.sortDir === "asc" ? 1 : -1;
+      const av = a[column] ?? "";
+      const bv = b[column] ?? "";
+
+      if (NUMERIC_COLUMNS.has(column)) {
+        const an = av === "" ? Number.NEGATIVE_INFINITY : Number(av);
+        const bn = bv === "" ? Number.NEGATIVE_INFINITY : Number(bv);
+        return (an - bn) * direction;
+      }
+
+      return String(av).localeCompare(String(bv), "zh-Hant", { numeric: true }) * direction;
+    }
+
+    function formatNumber(value) {
+      if (value === "") return "";
+      const num = Number(value);
+      if (!Number.isFinite(num)) return escapeHtml(value);
+      return new Intl.NumberFormat("zh-HK").format(num);
+    }
+
+    function formatCell(column, value) {
+      if (column === "source_url") {
+        if (!value) return '<span class="code">未披露</span>';
+        return '<a class="source-link" href="' + escapeHtml(value) + '" target="_blank" rel="noopener">打開來源</a>';
+      }
+
+      if (BOOLEAN_COLUMNS.has(column)) {
+        const yes = value === "TRUE";
+        return '<span class="chip ' + (yes ? "yes" : "no") + '">' + (yes ? "是" : "否") + "</span>";
+      }
+
+      if (column === "product_type") {
+        return '<span class="chip type">' + escapeHtml(TYPE_LABELS[value] || value || "未分類") + '</span><span class="code">' + escapeHtml(value) + "</span>";
+      }
+
+      if (NUMERIC_COLUMNS.has(column)) {
+        return value === "" ? '<span class="code">未披露</span>' : formatNumber(value);
+      }
+
+      if (column === "eligible_project_tags" || column === "preferred_esg_ratings" || column === "suitable_company_scale") {
+        return String(value || "")
+          .split(";")
+          .map((item) => item.trim())
+          .filter(Boolean)
+          .map((item) => '<span class="chip">' + escapeHtml(item) + "</span>")
+          .join(" ");
+      }
+
+      return escapeHtml(value || "");
+    }
+
+    function cellClass(column) {
+      if (LONG_COLUMNS.has(column)) return "cell long";
+      if (column === "source_url") return "cell url";
+      return "cell";
+    }
+
+    function updateStats(rows) {
+      document.getElementById("statProducts").textContent = rows.length;
+      document.getElementById("statBanks").textContent = new Set(rows.map((row) => row.bank_name_cn).filter(Boolean)).size;
+      document.getElementById("statSme").textContent = rows.filter((row) => row.supports_sme === "TRUE").length;
+      document.getElementById("statReview").textContent = rows.filter((row) => row.requires_external_review === "TRUE").length;
+    }
+
+    function updateSortMarks() {
+      tableHead.querySelectorAll("th").forEach((th) => {
+        const mark = th.querySelector(".sort-mark");
+        mark.textContent = th.dataset.column === state.sortColumn ? (state.sortDir === "asc" ? "上" : "下") : "";
+      });
+    }
+
+    function render() {
+      const rows = DATA.filter(matchRow).sort(compareRows);
+      updateStats(rows);
+      updateSortMarks();
+
+      if (rows.length === 0) {
+        tableBody.innerHTML = '<tr><td class="empty" colspan="' + COLUMNS.length + '">沒有符合條件的產品。</td></tr>';
+        return;
+      }
+
+      tableBody.innerHTML = rows.map((row) => {
+        return "<tr>" + COLUMNS.map((column) => {
+          return '<td><div class="' + cellClass(column) + '">' + formatCell(column, row[column]) + "</div></td>";
+        }).join("") + "</tr>";
+      }).join("");
+    }
+
+    ["input", "change"].forEach((eventName) => {
+      searchInput.addEventListener(eventName, render);
+      bankFilter.addEventListener(eventName, render);
+      typeFilter.addEventListener(eventName, render);
+      smeOnly.addEventListener(eventName, render);
+      reviewOnly.addEventListener(eventName, render);
+    });
+
+    document.getElementById("resetButton").addEventListener("click", () => {
+      searchInput.value = "";
+      bankFilter.value = "";
+      typeFilter.value = "";
+      smeOnly.checked = false;
+      reviewOnly.checked = false;
+      state.sortColumn = "bank_name_cn";
+      state.sortDir = "asc";
+      render();
+    });
+
+    buildFilters();
+    buildHeader();
+    render();
+  </script>
+</body>
+</html>
